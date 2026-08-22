@@ -1,0 +1,24 @@
+# Ignore large datasets and archives
+full code/Knee X-ray Images/
+*.rar
+*.zip
+
+# Ignore virtual environments & dependencies
+venv/
+node_modules/
+frontend-v2/node_modules/
+
+# Python & OS caches
+__pycache__/
+*.py[cod]
+.DS_Store
+._*
+*/._*
+
+# Ignore all models EXCEPT the production model
+models/*
+!models/best_model_improved.keras
+*.h5
+*.keras
+!best_model_improved.keras
+
