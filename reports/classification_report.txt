@@ -1,0 +1,19 @@
+ARTHROSCAN AI - KNEE OSTEOARTHRITIS CLASSIFICATION REPORT
+Author: Nikita Tuteja
+============================================================
+
+Test Accuracy: 58.59%
+Macro F1-Score: 0.5325
+Weighted F1-Score: 0.5606
+
+              precision    recall  f1-score   support
+
+      Normal       0.61      0.84      0.71       152
+    Doubtful       0.55      0.53      0.54       145
+        Mild       0.39      0.30      0.34        70
+    Moderate       0.78      0.21      0.33        66
+      Severe       0.68      0.82      0.74        62
+
+    accuracy                           0.59       495
+   macro avg       0.60      0.54      0.53       495
+weighted avg       0.59      0.59      0.56       495

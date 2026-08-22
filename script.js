@@ -228,6 +228,28 @@ analyzeBtn.addEventListener('click', async () => {
     }
 });
 
+// Grad-CAM Tab Switching
+const tabOriginal = document.getElementById('tab-original');
+const tabGradcam = document.getElementById('tab-gradcam');
+const resultImgOriginal = document.getElementById('result-img-original');
+const resultImgGradcam = document.getElementById('result-img-gradcam');
+
+if (tabOriginal && tabGradcam) {
+    tabOriginal.addEventListener('click', () => {
+        tabOriginal.className = "flex-1 py-1.5 px-3 rounded-lg font-bold transition-all bg-indigo-600 text-white shadow-sm";
+        tabGradcam.className = "flex-1 py-1.5 px-3 rounded-lg font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center space-x-1";
+        resultImgOriginal.classList.remove('hidden');
+        resultImgGradcam.classList.add('hidden');
+    });
+
+    tabGradcam.addEventListener('click', () => {
+        tabGradcam.className = "flex-1 py-1.5 px-3 rounded-lg font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center space-x-1";
+        tabOriginal.className = "flex-1 py-1.5 px-3 rounded-lg font-bold transition-all text-slate-400 hover:text-white";
+        resultImgGradcam.classList.remove('hidden');
+        resultImgOriginal.classList.add('hidden');
+    });
+}
+
 function displayResult(data) {
     loadingContainer.classList.add('hidden');
     resultContainer.classList.remove('hidden');
@@ -237,7 +259,23 @@ function displayResult(data) {
     const confidence = document.getElementById('result-confidence');
     const reasoning = document.getElementById('result-reasoning');
 
-    badge.className = `inline-block px-6 py-2 rounded-full text-white font-bold text-sm uppercase tracking-widest shadow-lg ${severityColors[data.class]}`;
+    // Update Images
+    if (resultImgOriginal && imagePreview) {
+        resultImgOriginal.src = imagePreview.src;
+    }
+    if (resultImgGradcam && data.gradcam_image) {
+        resultImgGradcam.src = data.gradcam_image;
+        tabGradcam.classList.remove('opacity-50', 'pointer-events-none');
+    }
+
+    // Default to Grad-CAM view if available for the "wow" factor
+    if (tabGradcam && data.gradcam_image) {
+        tabGradcam.click();
+    } else if (tabOriginal) {
+        tabOriginal.click();
+    }
+
+    badge.className = `inline-block px-8 py-2 rounded-full text-white font-bold text-xs uppercase tracking-widest shadow-lg ${severityColors[data.class]}`;
     badge.innerText = data.class;
     
     title.innerText = `${data.class} Arthritis Detected`;
@@ -266,6 +304,8 @@ function displayResult(data) {
 resetBtn.addEventListener('click', () => {
     selectedFile = null;
     fileInput.value = '';
+    if (tabOriginal) tabOriginal.click();
     resultContainer.classList.add('hidden');
     uploadContainer.classList.remove('hidden');
 });
+

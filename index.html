@@ -305,19 +305,33 @@
                 </div>
 
                 <!-- Result State -->
-                <div id="result-container" class="hidden space-y-10 animate-in fade-in zoom-in duration-700">
+                <div id="result-container" class="hidden space-y-8 animate-in fade-in zoom-in duration-700">
+                    <!-- Image / Heatmap Visual Viewer -->
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center bg-white/5 p-1.5 rounded-xl border border-white/10 text-xs">
+                            <button id="tab-original" class="flex-1 py-1.5 px-3 rounded-lg font-bold transition-all bg-indigo-600 text-white shadow-sm">Original X-Ray</button>
+                            <button id="tab-gradcam" class="flex-1 py-1.5 px-3 rounded-lg font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center space-x-1">
+                                <span>🔥 AI Heatmap (Grad-CAM)</span>
+                            </button>
+                        </div>
+                        <div class="relative overflow-hidden rounded-2xl h-72 bg-black/60 border border-white/10 flex items-center justify-center">
+                            <img id="result-img-original" class="w-full h-full object-contain rounded-2xl transition-all duration-500" src="" alt="Original X-Ray">
+                            <img id="result-img-gradcam" class="w-full h-full object-contain rounded-2xl transition-all duration-500 hidden" src="" alt="Grad-CAM Heatmap">
+                        </div>
+                    </div>
+
                     <div class="text-center space-y-4">
                         <div id="result-severity-badge" class="inline-block px-8 py-2 rounded-full text-white font-bold text-xs uppercase tracking-widest shadow-[0_0_30px_rgba(99,102,241,0.2)]">
                             Moderate
                         </div>
-                        <h2 class="text-4xl font-extrabold text-white tracking-tight" id="result-title">Moderate Arthritis Detected</h2>
+                        <h2 class="text-3xl font-extrabold text-white tracking-tight" id="result-title">Moderate Arthritis Detected</h2>
                         
-                        <div class="p-6 bg-white/5 rounded-3xl border border-white/10 text-left backdrop-blur-md">
-                            <h4 class="text-[10px] font-bold text-indigo-400 uppercase mb-3 tracking-[0.2em] flex items-center">
+                        <div class="p-5 bg-white/5 rounded-2xl border border-white/10 text-left backdrop-blur-md">
+                            <h4 class="text-[10px] font-bold text-indigo-400 uppercase mb-2 tracking-[0.2em] flex items-center">
                                 <span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2 animate-pulse"></span>
                                 Diagnostic Reasoning
                             </h4>
-                            <p id="result-reasoning" class="text-sm text-slate-300 leading-relaxed font-medium">
+                            <p id="result-reasoning" class="text-xs text-slate-300 leading-relaxed font-medium">
                                 Analysis indicates significant joint space narrowing and moderate osteophyte formation on the femur and tibia.
                             </p>
                         </div>
@@ -325,11 +339,11 @@
                         <p class="text-slate-400 font-bold text-[10px] uppercase tracking-widest" id="result-confidence">AI Confidence Level: 83.4%</p>
                     </div>
 
-                    <div class="space-y-5" id="probability-bars">
+                    <div class="space-y-4" id="probability-bars">
                         <!-- Bars injected by JS -->
                     </div>
 
-                    <button id="reset-btn" class="w-full py-5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white rounded-2xl font-bold text-lg shadow-[0_20px_40px_rgba(99,102,241,0.2)] transition-all duration-300 flex items-center justify-center group">
+                    <button id="reset-btn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white rounded-2xl font-bold text-base shadow-[0_20px_40px_rgba(99,102,241,0.2)] transition-all duration-300 flex items-center justify-center group">
                         <span>Perform New Scan</span>
                         <svg class="w-5 h-5 ml-2 transform group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     </button>

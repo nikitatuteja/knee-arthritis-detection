@@ -1,43 +1,83 @@
-# ArthroScan AI - Knee Osteoarthritis Detection & Severity Grading 🦴
+# ArthroScan AI - Deep Learning for Knee Osteoarthritis Detection & Severity Grading 🦴
 
-An AI-powered medical web application designed to automatically detect and grade Knee Osteoarthritis from standard Knee X-rays using Deep Learning (**DenseNet-121**), **FastAPI**, and a modern web interface.
+An academic-grade, end-to-end medical AI solution designed to automatically detect and grade Knee Osteoarthritis from standard Knee Radiographs (X-rays) using **DenseNet-121 Deep Transfer Learning**, **CLAHE Image Enhancement**, **Grad-CAM Explainable AI**, and an interactive **FastAPI & Glassmorphism Web Application**.
 
-Developed by **Nikita Tuteja**.
-
----
-
-## 🌟 Key Features
-
-- **Automated KL Grading**: Classifies knee X-rays into 5 Kellgren-Lawrence grades:
-  - `Grade 0: Normal` (Healthy knee joints)
-  - `Grade 1: Doubtful` (Minute osteophytes, doubtful joint space narrowing)
-  - `Grade 2: Mild` (Definite small osteophytes, intact joint space)
-  - `Grade 3: Moderate` (Multiple moderate osteophytes, clear joint space loss)
-  - `Grade 4: Severe` (Large osteophytes, severe bone-on-bone contact)
-- **High Accuracy AI Engine**: Built on transfer-learned **DenseNet-121** with fine-tuning.
-- **Fast Inference**: Analyzes X-ray images in under 3 seconds.
-- **Modern User Interface**: Dark-mode glassmorphism design with drag-and-drop file upload, real-time confidence bars, and interactive UI animations.
+Developed by **Nikita Tuteja** for the Final Year Engineering Project.
 
 ---
 
-## 🏗️ Architecture
+## 🌟 Key Project Highlights
+
+- **Kellgren-Lawrence (KL) Severity Grading (Grade 0–4)**:
+  - `Grade 0: Normal` — Healthy joint space, no osteophytes.
+  - `Grade 1: Doubtful` — Possible joint space narrowing, minute osteophytes.
+  - `Grade 2: Mild` — Definite small osteophytes, preserved joint space.
+  - `Grade 3: Moderate` — Multiple moderate osteophytes, definite joint space loss.
+  - `Grade 4: Severe` — Large osteophytes, severe bone-on-bone contact, subchondral sclerosis.
+- **Explainable AI (Grad-CAM)**: Visual attention heatmaps highlight anatomical joint spaces and osteophyte regions directly on the radiograph for clinician transparency.
+- **CLAHE Contrast Enhancement**: Adaptive Histogram Equalization sharpens subtle bone margins and cartilage contours.
+- **Two-Stage Transfer Learning**: Feature warmup + deep layer fine-tuning with balanced class weighting.
+- **Modern Web Application**: Interactive dark-mode glassmorphism interface with drag-and-drop X-ray upload, real-time inference, Grad-CAM heatmaps toggle, confidence bars, and scan history.
+- **Comprehensive Academic Report Suite**: Automated generation of Confusion Matrices (counts + normalized %), Classification Reports (Precision/Recall/F1), and loss/accuracy curves.
+
+---
+
+## 🏗️ System Architecture
 
 ```mermaid
-graph LR
-    Frontend["🌐 Modern Web UI (HTML/CSS/JS)"] -->|POST /predict| Backend["⚙️ FastAPI Server (Python)"]
-    Backend -->|Image Preprocessing (256x256)| Model["🧠 DenseNet-121 Deep Learning Model"]
-    Model -->|Severity & Confidence Scores| Backend
-    Backend -->|JSON Prediction Output| Frontend
+graph TD
+    A["Knee X-ray Image (PNG/JPG/DICOM)"] --> B["CLAHE Contrast Enhancement & Normalization (256x256)"]
+    B --> C["Deep Learning Engine (DenseNet-121 Backbone + Custom Radiological Head)"]
+    C --> D["KL Grade Prediction & Class Probabilities"]
+    C --> E["Grad-CAM Gradient-Weighted Class Activation Heatmap"]
+    D --> F["FastAPI Backend Server (/predict)"]
+    E --> F
+    F --> G["Glassmorphism Web Dashboard (Real-time Diagnosis & Visual Heatmap)"]
 ```
 
 ---
 
-## 🚀 Quick Start (Local Setup)
+## 📁 Repository Structure
+
+```
+├── backend/
+│   └── main.py                     # FastAPI REST API & prediction endpoints
+├── src/
+│   ├── model.py                    # DenseNet-121 architecture & 2-stage training engine
+│   ├── preprocess.py               # CLAHE enhancement, dataset indexing, data generators
+│   └── gradcam.py                  # Grad-CAM heatmap extraction & visual overlay
+├── models/
+│   ├── best_model_improved.keras   # High-accuracy DenseNet-121 model weights (256x256)
+│   ├── best_model.keras            # MobileNetV2 baseline model
+│   └── arthritis_model.h5          # Custom CNN baseline model
+├── data_splits/
+│   ├── train.csv                   # Stratified training split (70%)
+│   ├── val.csv                     # Stratified validation split (15%)
+│   └── test.csv                    # Stratified holdout test split (15%)
+├── reports/
+│   ├── confusion_matrix.png        # Publication-ready dual Confusion Matrix
+│   ├── sample_gradcam_predictions.png # Grad-CAM explainability panel across 5 grades
+│   ├── training_history.png        # Epoch-by-epoch loss & accuracy curves
+│   ├── classification_report.txt   # Precision, recall, and F1 metrics summary
+│   └── classification_report.csv   # Machine-readable evaluation report
+├── full code/
+│   └── Knee X-ray Images/          # MedicalExpert-I & II dataset (3,300 X-rays)
+├── index.html                      # Interactive web interface layout
+├── script.js                       # Frontend client & API communication logic
+├── train.py                        # Complete model training script
+├── evaluate.py                     # Academic evaluation & figure generator
+├── requirements.txt                # Python dependencies
+└── README.md                       # Project documentation
+```
+
+---
+
+## 🚀 Quick Start Guide
 
 ### 1. Prerequisites
-- Python 3.10 or 3.11 installed on your system.
+- Python **3.10** or **3.11** installed.
 
-### 2. Setup Virtual Environment
+### 2. Environment Setup
 ```bash
 # Clone the repository
 git clone https://github.com/nikitatuteja/knee-arthritis-detection.git
@@ -51,53 +91,56 @@ python -m venv venv
 
 # On Linux/macOS:
 source venv/bin/activate
-```
 
-### 3. Install Dependencies
-```bash
+# Install all dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Run the Application
+### 3. Run the Web Application
 ```bash
 python backend/main.py
 ```
 Open your browser and navigate to: **`http://localhost:8000`**
 
----
-
-## 📁 Project Structure
-
-```
-├── backend/
-│   └── main.py                     # FastAPI application & ML prediction routes
-├── models/
-│   └── best_model_improved.keras   # Pre-trained DenseNet-121 model weights
-├── full code/
-│   └── knee_arthritis.py           # Training and experimentation scripts
-├── index.html                      # Modern frontend layout
-├── script.js                       # Frontend interaction & API client
-├── train_final.py                  # Model fine-tuning script
-├── train_cv.py                     # 3-Fold cross-validation script
-├── train_model.py                  # Custom CNN baseline training script
-├── requirements.txt                # Python dependencies
-└── README.md                       # Project documentation
-```
+- Upload any knee X-ray (e.g. from `full code/Knee X-ray Images/`).
+- Click **"Start Deep Analysis"**.
+- Toggle between **Original X-Ray** and **🔥 AI Heatmap (Grad-CAM)** to inspect model reasoning.
 
 ---
 
-## 🌐 Deployment
+## 🧠 Training & Evaluation
 
-- **Frontend**: Can be deployed globally using [Vercel](https://vercel.com).
-- **Backend**: Can be hosted on [Render](https://render.com) or [Railway](https://railway.app).
+### Train Model from Scratch / Fine-Tune:
+```bash
+python train.py --img_size 256 --batch_size 32 --warmup_epochs 5 --finetune_epochs 20
+```
+
+### Evaluate on Test Set & Generate Academic Deliverables:
+```bash
+python evaluate.py
+```
+This automatically produces all high-resolution figures in the `reports/` folder:
+- **`reports/confusion_matrix.png`**: Raw sample counts and normalized recall percentages across all 5 KL grades.
+- **`reports/sample_gradcam_predictions.png`**: Side-by-side comparison of Raw X-ray, CLAHE Preprocessed, and Grad-CAM Joint Localization.
+- **`reports/classification_report.txt`**: Precision, Recall, and Macro/Weighted F1-Scores.
+
+---
+
+## 🌐 API Reference
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/` | `GET` | Serves the interactive web interface (`index.html`). |
+| `/health` | `GET` | Returns server health, active model status, and class labels. |
+| `/predict` | `POST` | Accepts multipart image file (`file`) and returns predicted class, confidence, all 5 grade probabilities, and base64-encoded Grad-CAM heatmap. |
 
 ---
 
 ## 👤 Author
-- **Nikita Tuteja** - [GitHub Profile](https://github.com/nikitatuteja)
+- **Nikita Tuteja** — [GitHub Profile](https://github.com/nikitatuteja)
 
 ---
 
 ## ⚠️ Disclaimer
-*This tool is created for educational and research purposes only. It should not be used as a substitute for professional medical advice, diagnosis, or treatment.*
+*This project was developed for academic and engineering research purposes. It is intended to assist medical imaging research and is not a replacement for professional clinical radiological diagnosis.*
