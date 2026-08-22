@@ -47,12 +47,11 @@
 
         .drop-zone {
             border: 2px dashed #cbd5e1;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
         .drop-zone:hover, .drop-zone.active {
             border-color: #6366f1;
             background: rgba(99, 102, 241, 0.05);
-            transform: translateY(-2px);
         }
         .animate-float {
             animation: float 3s ease-in-out infinite;

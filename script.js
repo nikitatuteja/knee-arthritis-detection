@@ -14,35 +14,11 @@ const probBars = document.getElementById('probability-bars');
 const historySection = document.getElementById('history-section');
 const historyList = document.getElementById('history-list');
 
-// 3D Tilt Effect
-const addTiltEffect = () => {
-    document.querySelectorAll('.glass-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-        });
-    });
-};
-
 // Handle Splash Screen
 window.addEventListener('load', () => {
     const splash = document.getElementById('splash-screen');
     setTimeout(() => {
         splash.classList.add('fade-out');
-        addTiltEffect();
     }, 1000); // Show splash for at least 1s
 });
 
