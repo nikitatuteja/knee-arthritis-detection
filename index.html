@@ -12,7 +12,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #0f172a;
             color: #f1f5f9;
-            cursor: none; /* Hide default cursor */
         }
         
         /* Dynamic Background */
@@ -46,43 +45,13 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        /* Custom Cursor */
-        .cursor-dot, .cursor-outline {
-            pointer-events: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #6366f1;
-        }
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(99, 102, 241, 0.5);
-        }
-        .cursor-hover .cursor-outline {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(99, 102, 241, 0.1);
-            border-color: #6366f1;
-        }
-        .cursor-hover .cursor-dot {
-            transform: translate(-50%, -50%) scale(1.5);
-        }
         .drop-zone {
             border: 2px dashed #cbd5e1;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .drop-zone:hover, .drop-zone.active {
             border-color: #6366f1;
-            background: #f5f3ff;
+            background: rgba(99, 102, 241, 0.05);
             transform: translateY(-2px);
         }
         .animate-float {
@@ -170,10 +139,6 @@
     </style>
 </head>
 <body class="min-h-screen">
-    <!-- Custom Cursor -->
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
-
     <!-- Dynamic Background -->
     <div class="bg-mesh"></div>
 

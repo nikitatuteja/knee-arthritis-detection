@@ -14,32 +14,6 @@ const probBars = document.getElementById('probability-bars');
 const historySection = document.getElementById('history-section');
 const historyList = document.getElementById('history-list');
 
-// Custom Cursor Logic
-const cursorDot = document.getElementById('cursor-dot');
-const cursorOutline = document.getElementById('cursor-outline');
-
-window.addEventListener('mousemove', (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
-
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
-
-    // Outline follows with a slight delay
-    cursorOutline.animate({
-        left: `${posX}px`,
-        top: `${posY}px`
-    }, { duration: 500, fill: 'forwards' });
-});
-
-// Cursor Hover Effects
-const addCursorHover = () => {
-    document.querySelectorAll('a, button, .drop-zone, .glass-card').forEach(el => {
-        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
-};
-
 // 3D Tilt Effect
 const addTiltEffect = () => {
     document.querySelectorAll('.glass-card').forEach(card => {
@@ -68,7 +42,6 @@ window.addEventListener('load', () => {
     const splash = document.getElementById('splash-screen');
     setTimeout(() => {
         splash.classList.add('fade-out');
-        addCursorHover();
         addTiltEffect();
     }, 1000); // Show splash for at least 1s
 });
