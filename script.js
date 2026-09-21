@@ -136,7 +136,7 @@ changeImageBtn.addEventListener('click', () => {
 // When deploying, change this to your production backend URL (e.g., Render or Railway)
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
     ? '' 
-    : 'https://kneearthritisdetection.onrender.com';
+    : 'https://knee-arthritis-api.onrender.com';
 
 analyzeBtn.addEventListener('click', async () => {
     if (!selectedFile) return;
