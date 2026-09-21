@@ -14,8 +14,11 @@ import tensorflow
 print(tensorflow.__version__)
 
 import cv2,os
-data_path='/content/drive/MyDrive/knee detection/MedicalExpert-I/MedicalExpert-I'
-categories=os.listdir(data_path)
+# Use local dataset path
+data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Knee X-ray Images', 'MedicalExpert-I', 'MedicalExpert-I')
+
+# Filter out non-directory files like .DS_Store
+categories = [c for c in os.listdir(data_path) if os.path.isdir(os.path.join(data_path, c))]
 labels=[i for i in range(len(categories))]
 
 label_dict=dict(zip(categories,labels)) #empty dictionary
@@ -163,3 +166,37 @@ plot_confusion_matrix(cm,figsize=(12,8), hide_ticks=True,cmap=plt.cm.Blues)
 plt.xticks(range(5), ['Normal','Doubtful','Mid','Moderate','Severe'], fontsize=16)
 plt.yticks(range(5), ['Normal','Doubtful','Mid','Moderate','Severe'], fontsize=16)
 plt.show()
+
+# --- OLLAMA INTEGRATION ---
+import requests
+
+def generate_medical_report(prediction_label):
+    print("\n--- Generating Medical Report using Ollama ---")
+    
+    # Strip any leading numbers from the folder name (e.g. '0Normal' -> 'Normal')
+    clean_label = prediction_label.lstrip('0123456789')
+    
+    prompt = f"You are an expert radiologist. A Convolutional Neural Network has analyzed a patient's knee X-ray and predicted the arthritis severity as: '{clean_label}'. Write a brief, professional medical report summarizing what this means for the patient and provide some generic recommendations for this level of severity. Keep it concise."
+    
+    url = "http://localhost:11434/api/generate"
+    payload = {
+        "model": "llama3.2",
+        "prompt": prompt,
+        "stream": False
+    }
+    
+    try:
+        response = requests.post(url, json=payload)
+        response.raise_for_status()
+        result = response.json()
+        print("\n================ MEDICAL REPORT ================\n")
+        print(result.get("response", "No response returned."))
+        print("\n================================================\n")
+    except requests.exceptions.ConnectionError:
+        print("\nError: Could not connect to Ollama. Please make sure the Ollama application is running on your machine.")
+    except Exception as e:
+        print(f"\nError generating report: {e}")
+
+# Generate a report for the single image prediction made earlier
+predicted_category = categories[np.argmax(predictions_single)]
+generate_medical_report(predicted_category)
