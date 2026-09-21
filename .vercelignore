@@ -1,0 +1,11 @@
+# Ignore backend and python files so Vercel only deploys the frontend static files
+backend/
+full code/
+models/
+reports/
+src/
+uploads/
+venv/
+*.py
+requirements.txt
+.python-version
